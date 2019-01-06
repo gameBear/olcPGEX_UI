@@ -81,7 +81,7 @@
 		ZleapingBear:
 	Youtube:	https://www.youtube.com/zleapingbear
 	Twitter:	https://twitter.com/MCLMouritzen
-	GitHub:		https://github.com/gameBear/olcPGEX_UI/tree/master
+	GitHub:		https://github.com/gameBear/olcPGEX_UI/
 
 		OneLoneCoder:
 	YouTube:	https://www.youtube.com/javidx9
