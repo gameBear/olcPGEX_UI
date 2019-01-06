@@ -31,7 +31,7 @@ Documentation will be added over time. in the mean time you can find me here:
 #define m_PI 3.14159265358979323846
 
 static int screenW = 900, screenH = 600;
-//some field information
+
 int lineWidth = 5, innerLines = 3, ballR = 6, playerPoints = 0, aiPoints = 0, playTimeMIN = 3, AplayTimeMIN = 3, aiPrecision = 40;
 point_2d playerPos, AiPos, boarSize;
 float playerSpeed, AiSpeed, playTimeSEC = 0, AplayTimeSEC = 0;
@@ -43,7 +43,6 @@ int getBetween(int min, int max) {
 	return dis(generator);
 }
 
-// some Enums and structs we will be using
 enum artStyle {
 	pge_style, paint_style
 };
@@ -192,7 +191,6 @@ struct pongBall {
 	}
 };
 
-//Some forward declarations and NON drawing functions and of all global variables
 pgrSTAGE currentStage = RUN_INTRO;
 olc::UI_STAGE_CONTROLL myUI;
 pongBall g_ball;
@@ -512,20 +510,16 @@ public:
 	bool OnUserUpdate(float fElapsedTime) override
 	{
 		bool stageChange = false;
-		// this handles the uopdate of all items, it needs our current stage so it cvan update it.
 		static pgrSTAGE lastStage = currentStage;
 		myUI.Update(fElapsedTime, currentStage);
 		point_2d mouse((int)GetMouseX(), (int)GetMouseY());
 		mouse_ball.coords.x = mouse.x;
 		mouse_ball.coords.y = mouse.y;
-		//say you want to use teh stage to do stuff like letting a ball pass the screen in some odd way.
-		// Short program irellevant for the setup, but demonstration of the UI_STAGE_CONTROLL handeling all things
-		// we will just let a ball bounce on the screen without a care in the world.
+
 
 		switch (currentStage)
 		{
 		case RUN_INTRO:
-			// CLEAR THE SCREEN
 			Clear(olc::DARK_GREY);
 			drawINTRO(fElapsedTime);
 			drawBall(mouse_ball, fElapsedTime);
@@ -608,9 +602,6 @@ public:
 		if(!stageChange) lastStage = currentStage;
 		else stageChange = false;
 
-
-		// This draws all items in the UI
-
 		if (art == paint_style) {
 			myUI.SetHideAll(true);
 		}
@@ -622,16 +613,7 @@ public:
 		myUI.drawUIObjects();
 		if(currentStage != RUN_PROGRAM) drawBall(mouse_ball, fElapsedTime);
 		
-		//// lets print a string to the screen telling if the mouse is in any UI.
-		//if (myUI.isMouseInUI()) DrawString(50, screenH* 0.9, ":THE MOUSE IS IN THE UI", olc::RED);
-		//else DrawString(50, screenH* 0.9, ":THE MOUSE NOT IN THE UI", olc::RED);
 
-
-		//// lets also draw all current commands to the screen
-		//std::string myOut = myUI.getAllCmds();
-		//DrawString(50, screenH* 0.95, myOut);
-
-		
 		return true;
 	}
 };
@@ -680,12 +662,6 @@ bool gameUPDATE(float fElapsedTime, bool reset, point_2d mouseCoords) {
 }
 
 void optionsUPDATE(float fElapsedTime, pongBall &ball) {
-
-	//if (art == paint_style) {
-	//	if (myUI.isAllHidden()) {}
-	//	else myUI.ToggleHideAll(false);
-	//}
-	//else if (myUI.isAllHidden()) myUI.ToggleHideAll(false);
 
 	ball.ballSpeed = 200 + (8 * myUI.getSliderInt(10));
 	ball.baseCountDown = myUI.getSliderInt(11) + 1;
@@ -739,19 +715,16 @@ void saveHighScore(std::vector<score> &toSave, std::string &playerN) {
 void reviewScore(std::vector<score> &oldScores, int pP, int aP, std::string playerN) {
 	int i = 0;
 	bool saveIt = false;
-	std::cout << "testing \n";
 	while(i < oldScores.size()) {
 		if (oldScores[i].comapre(pP, aP) == 1) {
 			oldScores.insert(oldScores.begin()+i, score(pP, aP, playerN));
 			saveIt = true;
-			std::cout << "gotIt\n";
 			i = 500;
 		}
 		i++;
 	}
 	if (saveIt) {
 		saveHighScore(oldScores, playerN);
-		std::cout << "Saved\n";
 	}
 }
 
