@@ -84,7 +84,7 @@ extension for the olcPixelGameEngine with focus on easy implementation of a UI o
 		ZleapingBear:
 	Youtube:	https://www.youtube.com/zleapingbear
 	Twitter:	https://twitter.com/MCLMouritzen
-	GitHub:
+	GitHub:		https://github.com/gameBear/olcPGEX_UI/tree/master
 
 		OneLoneCoder:
 	YouTube:	https://www.youtube.com/javidx9
