@@ -99,7 +99,7 @@ extension for the olcPixelGameEngine with focus on easy implementation of a UI o
 	https://youtu.be/kRH6oJLFYxY Introducing olcPixelGameEngine
 
 	PGEX_UI
-	https://youtu.be/CgrCznWa15c NotPong Demo example
+	https://youtu.be/bfiSjC__MCI NotPong Demo example
 
 	Compiling in XXXX
 	~~~~~~~~~~~~~~~~~~
