@@ -15,16 +15,16 @@ To this end, the extension provides two classes for direct use.
 the UI_CONTAINER and the UI_STAGE_CONTROLL
 
 the first, UI_CONTAINER handles the updateing and drawing of all UI elements,
-including bottons, drop down menus, text fields, sliders and backgroundfields, as well as asignment of a unique ID and communication with these.
+including buttons, drop down menus, text fields, sliders and backgroundfields, as well as asignment of a unique ID and communication with these.
 For a single page application, such as a calculator or a stand-alone main menu this contain can be used and handles all objects by it self.
 
 The second class UI_STAGE_CONTROLL functions on the surface exactly as the UI_CONTAINER, with one exception.
 The UI_STAGE_CONTROLL contains multiple UI_CONTAINERs at the same time and handles switching between them for the user,
-this can even be done trough Commands bound to bottons at creation time.
+this can even be done trough Commands bound to buttons at creation time.
 
 To help these classes there are multiple Enums created. the most important being the pgrSTAGE enum (Program stage)
 this enum contains a list of 20 diffrent stages that teh program can be in, 10 predefined and 10 generic.
-each stage name can also be used as a command on a botton, forcing the UI_STAGE_CONTROLL to switch to that stage if one such exists.
+each stage name can also be used as a command on a button, forcing the UI_STAGE_CONTROLL to switch to that stage if one such exists.
 
 
 
@@ -141,16 +141,16 @@ public:
 	bool OnUserCreate() override
 	{
 
-		// A simple botton
-		myUI.addNewBotton(120, 5, 70, 20, "A BOTTEN");
+		// A simple button
+		myUI.addNewButton(120, 5, 70, 20, "A BOTTEN");
 
-		// Four bottons bound to the keyboard keys WASD
-		myUI.addNewBotton(olc::Key::W, "UP_Key", screenW - 110, screenH - 130, 32, 32, " W");
-		myUI.addNewBotton(olc::Key::A, "LEFT_Key", screenW - 160, screenH - 80, 32, 32, " A");
-		myUI.addNewBotton(olc::Key::S, "DOWN_Key", screenW - 110, screenH - 80, 32, 32, " S");
-		myUI.addNewBotton(olc::Key::D, "RIGHT_Key", screenW - 60, screenH - 80, 32, 32, " D");
+		// Four buttons bound to the keyboard keys WASD
+		myUI.addNewButton(olc::Key::W, "UP_Key", screenW - 110, screenH - 130, 32, 32, " W");
+		myUI.addNewButton(olc::Key::A, "LEFT_Key", screenW - 160, screenH - 80, 32, 32, " A");
+		myUI.addNewButton(olc::Key::S, "DOWN_Key", screenW - 110, screenH - 80, 32, 32, " S");
+		myUI.addNewButton(olc::Key::D, "RIGHT_Key", screenW - 60, screenH - 80, 32, 32, " D");
 
-		// a drop down, note that the third sub botton has teh cvommand EXIT, we will use this bellow
+		// a drop down, note that the third sub button has teh cvommand EXIT, we will use this bellow
 		myUI.addNewDropDown(UI_BLACK, UI_BLUE, 5, 5, 100, "MAIN", "FIRST,SECOND,EXIT", "CMD_1,CMD_2,EXIT");
 
 		// a test field
@@ -191,7 +191,7 @@ public:
 		// this handles the uopdate of all items
 		myUI.Update(fElapsedTime);
 
-		// if any botton in the current UI sends the command EXIT, letsd exit
+		// if any button in the current UI sends the command EXIT, letsd exit
 		if (myUI.hasCommand("EXIT", false)) return 0;
 
 		Clear(olc::DARK_GREY);
@@ -267,7 +267,7 @@ public:
 		// When adding to the UI_STAGE_CONTROLL, it is important to call the stage you wish to add to first
 		// lets add to the mainmenu, if such one exists. (it does, we added it first to the vector ;)
 		if (myUI.addToStage(MAIN_MENU)) {
-			// Here we will just add adrop down menu that will let uc chose the tow other stages. we will aslo add an exit botton
+			// Here we will just add adrop down menu that will let uc chose the tow other stages. we will aslo add an exit button
 			myUI.addNewDropDown(UI_BLACK, UI_BLUE, 5, 5, 100, "MAIN", "STAGE 0,Stage 1,EXIT", "PGR_STG0,PGR_STG1,EXIT");
 			//do you want the ID to be visible durring the debud time?
 			//myUI.toggleDEBUGMODE();
@@ -275,15 +275,15 @@ public:
 
 
 		if (myUI.addToStage(PGR_STG0)) {
-			// in stage 0 we will just add a return botton, that will let us return tom main menu
-			myUI.addNewBotton("MAIN_MENU", 0, screenH*0.5, screenW, 50, "MAIN MENU");
+			// in stage 0 we will just add a return button, that will let us return tom main menu
+			myUI.addNewButton("MAIN_MENU", 0, screenH*0.5, screenW, 50, "MAIN MENU");
 			//do you want the ID to be visible durring the debud time?
 			//myUI.toggleDEBUGMODE();
 		}
 
 		if (myUI.addToStage(PGR_STG1)) {
-			// in stage 1 we will add a botton that will take us to stage 0 if we press space
-			myUI.addNewBotton(olc::Key::SPACE, "PGR_STG0", 0, screenH*0.1, screenW, 50, "Press Space to get to stage 0");
+			// in stage 1 we will add a button that will take us to stage 0 if we press space
+			myUI.addNewButton(olc::Key::SPACE, "PGR_STG0", 0, screenH*0.1, screenW, 50, "Press Space to get to stage 0");
 			//do you want the ID to be visible durring the debud time?
 			//myUI.toggleDEBUGMODE();
 		}
@@ -297,7 +297,7 @@ public:
 		// this handles the uopdate of all items, it needs our current stage so it cvan update it.
 		myUI.Update(fElapsedTime, currentStage);
 
-		// if any botton in the current UI sends the command EXIT, letsd exit
+		// if any button in the current UI sends the command EXIT, letsd exit
 		if (myUI.hasCommand("EXIT", false)) return 0;
 
 
@@ -395,7 +395,7 @@ int main()
 #include <map>
 
 //Enum used to handle the diffren stages 
-enum pgrSTAGE { RUN_INTRO, MAIN_MENU, RUN_PROGRAM, SAVE_LOAD, PAUSE_PROGRAM, INVENTORY, VIEW_MAP, CREDITS, HIGHSCORE, PGR_OPTIONS, PGR_STG0, PGR_STG1, PGR_STG2, PGR_STG3, PGR_STG4, PGR_STG5, PGR_STG6, PGR_STG7, PGR_STG8, PGR_STG9};
+enum pgrSTAGE { RUN_INTRO, MAIN_MENU, RUN_PROGRAM, SAVE_LOAD, PAUSE_PROGRAM, INVENTORY, VIEW_MAP, CREDITS, HIGHSCORE, PGR_OPTIONS, PGR_STG0, PGR_STG1, PGR_STG2, PGR_STG3, PGR_STG4, PGR_STG5, PGR_STG6, PGR_STG7, PGR_STG8, PGR_STG9 };
 
 // converts a game stage to a string for idententification in a command string
 std::string stage_to_string(pgrSTAGE in_stage) {
@@ -425,9 +425,9 @@ std::string stage_to_string(pgrSTAGE in_stage) {
 
 // directions for sliders.
 enum sliderDirection { LeftRight, RightLeft, TopBottom, BottomTop };
-enum sliderType {PercentageSlider, RangeSetSlider, SteppingSlider};
+enum sliderType { PercentageSlider, RangeSetSlider, SteppingSlider };
 enum btnState { IDLE, HOVER, PRESSED };
-enum UIStyle { UI_GREY, UI_RED, UI_GREEN, UI_BLUE, UI_YELLOW, UI_BLACK};
+enum UIStyle { UI_GREY, UI_RED, UI_GREEN, UI_BLUE, UI_YELLOW, UI_BLACK };
 enum menuStage { CLOSED, OPEN_NOHOVER, OPEN_HOVER };
 enum txtFieldStage { ISACTIVE, NOTACTIVE, ERASE };
 
@@ -513,7 +513,7 @@ namespace olc
 		bool showSliders = true;
 		bool debugMode = false;
 
-		
+
 
 	public:
 		std::vector<debugID> drawID;
@@ -642,7 +642,7 @@ namespace olc
 		}
 
 		//collisiondetection fot all objects
-		
+
 
 
 	public:
@@ -682,7 +682,7 @@ namespace olc
 					}
 				}
 				for (int i = 68; i <= 77; i++) {
-					if (pge->GetKey(Key(i)).bPressed) return localChar[i -16];
+					if (pge->GetKey(Key(i)).bPressed) return localChar[i - 16];
 				}
 				return '*';
 			}
@@ -755,10 +755,10 @@ namespace olc
 
 		};
 
-		///////////////////////////////// Botton class
+		///////////////////////////////// Button class
 
-		//a single botton that reacts to hover and press. can be bound to keyboard keys and can send a command to the command string
-		class Botton {
+		//a single button that reacts to hover and press. can be bound to keyboard keys and can send a command to the command string
+		class Button {
 		private:
 			UI_rect localRect;
 			olc::Pixel localbtnColorIDLE = olc::DARK_GREY;
@@ -776,7 +776,7 @@ namespace olc
 			bool isInvisible = false;
 			bool followOnPress = false;
 		public:
-			Botton() {
+			Button() {
 				localRect.pos.x = 5;
 				localRect.pos.y = 5;
 				localRect.w = 32;
@@ -787,17 +787,17 @@ namespace olc
 				isHidden = false;
 				m_style = UI_BLUE;
 			}
-			Botton(UIStyle style, olc::Key nKey, bool addKey, std::string nCmd, int newX, int newY, int newW, int newH, bool hide, std::string bottonText, int m_screenW, int m_screenH) {
+			Button(UIStyle style, olc::Key nKey, bool addKey, std::string nCmd, int newX, int newY, int newW, int newH, bool hide, std::string buttonText, int m_screenW, int m_screenH) {
 				screenW = m_screenW;
 				screenH = m_screenH;
 				localRect.pos.x = newX;
 				localRect.pos.y = newY;
 				if (newW != 0) localRect.w = newW;
-				else if (bottonText.length() > 0) localRect.w = 16 + (bottonText.length() + 1) * 8;
+				else if (buttonText.length() > 0) localRect.w = 16 + (buttonText.length() + 1) * 8;
 				else localRect.w = 32;
 				if (newH != 0) localRect.h = newH;
 				else localRect.h = 20;
-				if (bottonText.length() > 0) btnTxt = bottonText;
+				if (buttonText.length() > 0) btnTxt = buttonText;
 				else btnTxt = std::to_string(uID);
 				hasKey = addKey;
 				mKey = nKey;
@@ -823,9 +823,9 @@ namespace olc
 						}
 						else localstage = HOVER;
 					}
-					
+
 				}
-				
+
 				else localstage = IDLE;
 			}
 			void drawBtn(bool inDebugMode, std::vector<debugID> &storeDrawID) {
@@ -840,13 +840,16 @@ namespace olc
 			int getH() { return localRect.h; }
 
 			void setX(int newX) {
-				localRect.pos.x = newX; 
+				localRect.pos.x = newX;
 			}
-			void setY(int newY) { localRect.pos.y =newY;
+			void setY(int newY) {
+				localRect.pos.y = newY;
 			}
-			void setW(int newW) { localRect.w = newW;
+			void setW(int newW) {
+				localRect.w = newW;
 			}
-			void setH(int newH) { localRect.h = newH;
+			void setH(int newH) {
+				localRect.h = newH;
 			}
 
 
@@ -867,12 +870,12 @@ namespace olc
 
 
 		///////////////////////////////// DROP DOWN MENU
-		
-		//Drop down menu, contains multiple bottons that all can contain a command
+
+		//Drop down menu, contains multiple buttons that all can contain a command
 		class DropDown {
 		private:
 			UI_rect localRect;
-			std::vector<Botton> localBtns;
+			std::vector<Button> localBtns;
 			menuStage localstage = CLOSED;
 			float countDown = 0.0f;
 			int screenewW = 240, screenewH = 220;
@@ -883,8 +886,8 @@ namespace olc
 				localRect.pos.y = 0;
 				localRect.w = 150;
 				localRect.h = 20;
-				localBtns.push_back(Botton(UI_BLUE, olc::Key::ENTER, false, "", localRect.pos.x, localRect.pos.y, localRect.w, localRect.h, true, "DRP_DN", screenewW, screenewH));
-				localBtns.push_back(Botton(UI_BLUE, olc::Key::ENTER, false, "", localRect.pos.x, localRect.pos.y + 20, localRect.w, localRect.h, true, "DRP_DN", screenewW, screenewH));
+				localBtns.push_back(Button(UI_BLUE, olc::Key::ENTER, false, "", localRect.pos.x, localRect.pos.y, localRect.w, localRect.h, true, "DRP_DN", screenewW, screenewH));
+				localBtns.push_back(Button(UI_BLUE, olc::Key::ENTER, false, "", localRect.pos.x, localRect.pos.y + 20, localRect.w, localRect.h, true, "DRP_DN", screenewW, screenewH));
 				localBtns.back().hideBtn(true);
 			}
 
@@ -892,7 +895,7 @@ namespace olc
 			DropDown(UIStyle FirstStyle, UIStyle DropStyle, int newX, int newY, int newW, std::string drpDnName, std::string drpDnBtns, std::string commands, int m_screenewW, int m_screenewH) {
 				screenewW = m_screenewW;
 				screenewH = m_screenewH;
-				localBtns.push_back(Botton(FirstStyle, olc::Key::ENTER, false, "", newX, newY, newW, 20, false, drpDnName, screenewW, screenewH));
+				localBtns.push_back(Button(FirstStyle, olc::Key::ENTER, false, "", newX, newY, newW, 20, false, drpDnName, screenewW, screenewH));
 				localRect.pos.x = newX;
 				localRect.pos.y = newY;
 				localRect.w = newW;
@@ -915,7 +918,7 @@ namespace olc
 							}
 						}
 						if (lcmd == "") lcmd = "";
-						localBtns.push_back(Botton(DropStyle, olc::Key::ENTER, false, lcmd, newX, newY + (nBtns * 20), localRect.w, localRect.h, true, newBtnName, screenewW, screenewH));
+						localBtns.push_back(Button(DropStyle, olc::Key::ENTER, false, lcmd, newX, newY + (nBtns * 20), localRect.w, localRect.h, true, newBtnName, screenewW, screenewH));
 						newBtnName = "";
 						nBtns++;
 					}
@@ -967,31 +970,32 @@ namespace olc
 			int getW() { return localRect.w; }
 			int getH() { return localRect.h; }
 
-			void setX(int newX) { 
-				localRect.pos.x = newX; 
+			void setX(int newX) {
+				localRect.pos.x = newX;
 				if (localBtns.size() > 0) {
 					for (int i = 0; i < localBtns.size(); i++) {
 						localBtns[i].setX(newX);
 					}
 				}
 			}
-			void setY(int newY) { 
-				localRect.pos.y = newY; 
+			void setY(int newY) {
+				localRect.pos.y = newY;
 				if (localBtns.size() > 0) {
 					for (int i = 0; i < localBtns.size(); i++) {
 						localBtns[i].setY(newY + ((i + 1) * localRect.h));
 					}
 				}
 			}
-			void setW(int newW) { localRect.w = newW; 
+			void setW(int newW) {
+				localRect.w = newW;
 				if (localBtns.size() > 0) {
 					for (int i = 0; i < localBtns.size(); i++) {
 						localBtns[i].setW(newW);
 					}
 				}
 			}
-			void setH(int newH) { 
-				localRect.h = newH; 
+			void setH(int newH) {
+				localRect.h = newH;
 				if (localBtns.size() > 0) {
 					for (int i = 0; i < localBtns.size(); i++) {
 						localBtns[i].setY(localRect.pos.y + ((i + 1) * newH));
@@ -1064,18 +1068,18 @@ namespace olc
 
 		////////////////Sliders
 
-		//Slider, contains a dragable botton that will adjust the retunr value of the object.
+		//Slider, contains a dragable button that will adjust the retunr value of the object.
 		class Slider {
 		private:
 
-			Botton SliderHandle;
+			Button SliderHandle;
 			int screenW = 240, screenH = 220;
 			bool following = false;
 			point_2d distToMouse;
-			sliderDirection localDir= LeftRight;
+			sliderDirection localDir = LeftRight;
 			sliderType localType = PercentageSlider;
 			point_2d position;
-			
+
 			int length;
 			std::vector<int> range;
 
@@ -1105,8 +1109,8 @@ namespace olc
 					SliderHandle.setH(32);
 				}
 				else {
-					SliderHandle.setX(newX -16);
-					SliderHandle.setY(newY +1);
+					SliderHandle.setX(newX - 16);
+					SliderHandle.setY(newY + 1);
 					SliderHandle.setW(32);
 					SliderHandle.setH(20);
 				}
@@ -1120,7 +1124,7 @@ namespace olc
 				position.y = newY;
 				length = newLength;
 				if (newDir == LeftRight || newDir == RightLeft) {
-					if(newDir == LeftRight )SliderHandle.setX(newX);
+					if (newDir == LeftRight)SliderHandle.setX(newX);
 					else SliderHandle.setX(newX + length - 16);
 					SliderHandle.setY(newY - 16);
 					SliderHandle.setW(20);
@@ -1162,14 +1166,14 @@ namespace olc
 						int mX = pge->GetMouseX() + distToMouse.x;
 						int mY = pge->GetMouseY() + distToMouse.y;
 						if (localDir == LeftRight || localDir == RightLeft) {
-							if (mX > position.x+1 && mX < (position.x + length - SliderHandle.getW())) SliderHandle.setX(mX);
-							else if (mX < position.x ) SliderHandle.setX(position.x );
+							if (mX > position.x + 1 && mX < (position.x + length - SliderHandle.getW())) SliderHandle.setX(mX);
+							else if (mX < position.x) SliderHandle.setX(position.x);
 							else if (mX > (position.x + length - SliderHandle.getW())) SliderHandle.setX(position.x + length - SliderHandle.getW());
 
 						}
 						else if (localDir == TopBottom || localDir == BottomTop) {
 							if (mY > position.y && mY < (position.y + (length - SliderHandle.getH()))) SliderHandle.setY(mY);
-							else if (mY < position.y ) SliderHandle.setY(position.y );
+							else if (mY < position.y) SliderHandle.setY(position.y);
 							else if (mY > (position.y + (length - SliderHandle.getH()))) SliderHandle.setY(position.y + (length - SliderHandle.getH()));
 						}
 					}
@@ -1200,7 +1204,7 @@ namespace olc
 			}
 
 			void drawSlider(bool inDebugMode, std::vector<debugID> &storeDrawID) {
-				
+
 				if (localDir == LeftRight || localDir == RightLeft) pge->FillRect(position.x, position.y, length, 2, olc::BLACK);
 				else pge->FillRect(position.x, position.y, 2, length, olc::BLACK);
 				SliderHandle.drawBtn(inDebugMode, storeDrawID);
@@ -1227,7 +1231,7 @@ namespace olc
 			}
 
 			int getStep() {
-				float step = ((float)(range.size()-1) / 100.0f) * getValueAsFloat();
+				float step = ((float)(range.size() - 1) / 100.0f) * getValueAsFloat();
 				return FloatToInt(step);
 			}
 
@@ -1250,22 +1254,24 @@ namespace olc
 			int getH() { return SliderHandle.getH(); }
 			int getLength() { return length; }
 
-			void setX(int newX) { position.x = newX; 
+			void setX(int newX) {
+				position.x = newX;
 				setSteppingSlider(getValueAsInt());
 
 			}
-			void setY(int newY) { position.y = newY; 
+			void setY(int newY) {
+				position.y = newY;
 				setSteppingSlider(getValueAsInt());
 
 			}
-			void setW(int newW) { 
+			void setW(int newW) {
 				SliderHandle.setW(newW);
 				if (localDir == TopBottom || localDir == BottomTop) {
 					SliderHandle.setX(position.x - (newW * 0.5));
 				}
 			}
-			void setH(int newH) { 
-				SliderHandle.setH(newH); 
+			void setH(int newH) {
+				SliderHandle.setH(newH);
 				if (localDir == LeftRight || localDir == RightLeft) {
 					SliderHandle.setY(position.y - (newH * 0.5));
 				}
@@ -1278,14 +1284,14 @@ namespace olc
 						setSteppingSlider(0);
 					}
 					else if (newValue >= range.size()) {
-						setSteppingSlider(range.size()-1);
+						setSteppingSlider(range.size() - 1);
 					}
 					else {
 						setSteppingSlider(newValue);
 					}
 				}
 
-				
+
 				else {
 					if (newValue < 0) {
 						if (localDir == LeftRight) SliderHandle.setX(position.x);
@@ -1326,7 +1332,7 @@ namespace olc
 		// Text fields
 		std::vector<TextField> allTextFields;
 		//BTNS
-		std::vector<Botton> allBtns;
+		std::vector<Button> allBtns;
 		//DropDownMenus
 		std::vector<DropDown> allDrpDn;
 		//Sliders
@@ -1359,14 +1365,14 @@ namespace olc
 			showSliders = showUIFields;
 			return showUIFields;
 		}
-		
+
 		//Toggles the current UI fields visibility.									
 		bool ToggleHideUIFIELDS() {
 			showUIFields = !showUIFields;
 			return showUIFields;
 		}
-		
-		//Toggles  the current UI bottons visibility									
+
+		//Toggles  the current UI buttons visibility									
 		bool ToggleHideUIBTNS() {
 			showBtns = !showBtns;
 			return showBtns;
@@ -1435,62 +1441,62 @@ namespace olc
 			allUIFields.push_back(UI_rect(x, y, w, h));
 			return true;
 		}
-		
-		// A simple botton with width 32 heigth 20									
-		bool addNewBotton(int newX, int newY) {
-			allBtns.push_back(Botton(UI_BLUE, olc::Key::ENTER, false, "", newX, newY, 0, 0, false, "", screenW, screenH));
+
+		// A simple button with width 32 heigth 20									
+		bool addNewButton(int newX, int newY) {
+			allBtns.push_back(Button(UI_BLUE, olc::Key::ENTER, false, "", newX, newY, 0, 0, false, "", screenW, screenH));
 			return true;
 		}
 
-		// A simple botton with specified width and heigth									
-		bool addNewBotton(int newX, int newY, int newW, int newH) {
-			allBtns.push_back(Botton(UI_BLUE, olc::Key::ENTER, false, "", newX, newY, newW, newH, false, "", screenW, screenH));
+		// A simple button with specified width and heigth									
+		bool addNewButton(int newX, int newY, int newW, int newH) {
+			allBtns.push_back(Button(UI_BLUE, olc::Key::ENTER, false, "", newX, newY, newW, newH, false, "", screenW, screenH));
 			return true;
 		}
 
-		// A simple botton with specified width and heigth, Text displayed on botton.									
-		bool addNewBotton(int newX, int newY, int newW, int newH, std::string bottonText) {
-			allBtns.push_back(Botton(UI_BLUE, olc::Key::ENTER, false, "", newX, newY, newW, newH, false, bottonText, screenW, screenH));
-			return true;
-		}
-							
-		//Botton width a bound key, nKey is a keyboard key, nCmd is a string that is returned as a command when the botton is activated.									
-		bool addNewBotton(olc::Key nKey, std::string nCmd, int newX, int newY, int newW, int newH, std::string bottonText) {
-			allBtns.push_back(Botton(UI_BLUE, nKey, true, nCmd, newX, newY, newW, newH, false, bottonText, screenW, screenH));
-			return true;
-		}
-								
-		//Botton width command. nCmd is a  a string that is returned as a command when the botton is activated.									
-		bool addNewBotton(std::string nCmd, int newX, int newY, int newW, int newH, std::string bottonText) {
-			allBtns.push_back(Botton(UI_BLUE, olc::Key::ENTER, false, nCmd, newX, newY, newW, newH, false, bottonText, screenW, screenH));
+		// A simple button with specified width and heigth, Text displayed on button.									
+		bool addNewButton(int newX, int newY, int newW, int newH, std::string buttonText) {
+			allBtns.push_back(Button(UI_BLUE, olc::Key::ENTER, false, "", newX, newY, newW, newH, false, buttonText, screenW, screenH));
 			return true;
 		}
 
-		// Botton that allowes for selection of the graphic style. nKey is a keyboard key, if hasKey is set to false, teh botton will not recive the key bibdibg. nCmd is a string that is returned as a command when the botton is activated.									
-		bool addNewBotton(UIStyle newStyle, olc::Key newKey, bool hasKey, std::string newCmd, int newX, int newY, int newW, int newH, std::string bottonText) {
-			allBtns.push_back(Botton(newStyle, newKey, hasKey, newCmd, newX, newY, newW, newH, false, bottonText, screenW, screenH));
+		//Button width a bound key, nKey is a keyboard key, nCmd is a string that is returned as a command when the button is activated.									
+		bool addNewButton(olc::Key nKey, std::string nCmd, int newX, int newY, int newW, int newH, std::string buttonText) {
+			allBtns.push_back(Button(UI_BLUE, nKey, true, nCmd, newX, newY, newW, newH, false, buttonText, screenW, screenH));
 			return true;
 		}
 
-		//a dropdown menu, newW specifies teh width of the menu, drpDnName is the text on the top botton. drpDnBtns is a string of names for all sup bottons, formated as "First,Second,Third" ect.									
+		//Button width command. nCmd is a  a string that is returned as a command when the button is activated.									
+		bool addNewButton(std::string nCmd, int newX, int newY, int newW, int newH, std::string buttonText) {
+			allBtns.push_back(Button(UI_BLUE, olc::Key::ENTER, false, nCmd, newX, newY, newW, newH, false, buttonText, screenW, screenH));
+			return true;
+		}
+
+		// Button that allowes for selection of the graphic style. nKey is a keyboard key, if hasKey is set to false, teh button will not recive the key bibdibg. nCmd is a string that is returned as a command when the button is activated.									
+		bool addNewButton(UIStyle newStyle, olc::Key newKey, bool hasKey, std::string newCmd, int newX, int newY, int newW, int newH, std::string buttonText) {
+			allBtns.push_back(Button(newStyle, newKey, hasKey, newCmd, newX, newY, newW, newH, false, buttonText, screenW, screenH));
+			return true;
+		}
+
+		//a dropdown menu, newW specifies teh width of the menu, drpDnName is the text on the top button. drpDnBtns is a string of names for all sup buttons, formated as "First,Second,Third" ect.									
 		bool addNewDropDown(int newX, int newY, int newW, std::string drpDnName, std::string drpDnBtns) {
 			allDrpDn.push_back(DropDown(UI_BLUE, UI_GREEN, newX, newY, newW, drpDnName, drpDnBtns, "", screenW, screenH));
 			return true;
 		}
 
-		//a dropdown menu, allowes for selection of the style for the first and all sup bottons. newW specifies teh width of the menu, drpDnName is the text on the top botton. drpDnBtns is a string of names for all sup bottons, formated as "First,Second,Third" ect.									
+		//a dropdown menu, allowes for selection of the style for the first and all sup buttons. newW specifies teh width of the menu, drpDnName is the text on the top button. drpDnBtns is a string of names for all sup buttons, formated as "First,Second,Third" ect.									
 		bool addNewDropDown(UIStyle FirstStyle, UIStyle  DropStyle, int newX, int newY, int newW, std::string drpDnName, std::string drpDnBtns) {
 			allDrpDn.push_back(DropDown(FirstStyle, DropStyle, newX, newY, newW, drpDnName, drpDnBtns, "", screenW, screenH));
 			return true;
 		}
 
-		//a dropdown menu, newW specifies teh width of the menu, drpDnName is the text on the top botton. drpDnBtns is a string of names for all sup bottons, formated as "First,Second,Third" ect, commands is as string of commands formated as "FIRST_CMD,SECOND,CMD,THIRD_CMD" ect.									
+		//a dropdown menu, newW specifies teh width of the menu, drpDnName is the text on the top button. drpDnBtns is a string of names for all sup buttons, formated as "First,Second,Third" ect, commands is as string of commands formated as "FIRST_CMD,SECOND,CMD,THIRD_CMD" ect.									
 		bool addNewDropDown(int newX, int newY, int newW, std::string drpDnName, std::string drpDnBtns, std::string commands) {
 			allDrpDn.push_back(DropDown(UI_BLUE, UI_GREEN, newX, newY, newW, drpDnName, drpDnBtns, commands, screenW, screenH));
 			return true;
 		}
 
-		//a dropdown menu, allowes for selection of the style for the first and all sup bottons. newW specifies teh width of the menu, drpDnName is the text on the top botton. drpDnBtns is a string of names for all sup bottons, formated as "First,Second,Third" ect, commands is as string of commands formated as "FIRST_CMD,SECOND,CMD,THIRD_CMD" ect.									
+		//a dropdown menu, allowes for selection of the style for the first and all sup buttons. newW specifies teh width of the menu, drpDnName is the text on the top button. drpDnBtns is a string of names for all sup buttons, formated as "First,Second,Third" ect, commands is as string of commands formated as "FIRST_CMD,SECOND,CMD,THIRD_CMD" ect.									
 		bool addNewDropDown(UIStyle FirstStyle, UIStyle  DropStyle, int newX, int newY, int newW, std::string drpDnName, std::string drpDnBtns, std::string commands) {
 			allDrpDn.push_back(DropDown(FirstStyle, DropStyle, newX, newY, newW, drpDnName, drpDnBtns, commands, screenW, screenH));
 			return true;
@@ -1595,7 +1601,7 @@ namespace olc
 			}
 			if (allSliders.size() > 0) {
 				for (int i = 0; i < allSliders.size(); i++) {
-					if(allSliders[i].getHandleStage() != IDLE) return true;
+					if (allSliders[i].getHandleStage() != IDLE) return true;
 				}
 			}
 
@@ -1666,7 +1672,7 @@ namespace olc
 			return -1;
 		}
 
-		//Returns the command string of any botton or dropDownMenu Currently Pressed									
+		//Returns the command string of any button or dropDownMenu Currently Pressed									
 		std::string getCmdString() {
 			if (allBtns.size() > 0) {
 				for (int i = 0; i < allBtns.size(); i++) {
@@ -1721,7 +1727,7 @@ namespace olc
 
 			for (int i = 0; i < allTextFields.size(); i++) {
 				if (isPointInRect(pge->GetMouseX(), pge->GetMouseY(), allTextFields[i].getRect().pos.x, allTextFields[i].getRect().pos.y, allTextFields[i].getRect().w, allTextFields[i].getRect().h)) {
-					if(allTextFields[i].getFieldStage() == ISACTIVE) rtnStr += "#TXT:" + std::to_string(allTextFields[i].getId()) + ":TYPING:";
+					if (allTextFields[i].getFieldStage() == ISACTIVE) rtnStr += "#TXT:" + std::to_string(allTextFields[i].getId()) + ":TYPING:";
 					else rtnStr += "#TXT:" + std::to_string(allTextFields[i].getId()) + ":HOVER:";
 					if (allTextFields[i].getString() != "") rtnStr += "STR:" + allTextFields[i].getString();
 					else  rtnStr += "NIL:IS_BLANK";
@@ -1738,13 +1744,13 @@ namespace olc
 			return rtnStr;
 		}
 
-		//Loops trougth the current commandstring looking for a specific command from a pressed botton. if CheckHover is true, it will accept the command from a botton hovered. returns true if found.									
+		//Loops trougth the current commandstring looking for a specific command from a pressed button. if CheckHover is true, it will accept the command from a button hovered. returns true if found.									
 		bool hasCommand(std::string cmd, bool checkHover) {
 			std::string cmdList = getAllCmds();
 			for (int i = 0; i < cmdList.length(); i++) {
 				if (cmdList[i] == 'C' && cmdList[i - 1] == ':' && (checkHover || cmdList[i - 2] == 'S')) {
 					std::string localcmd = "";
-					for (int j = 0; j < cmd.length(); j++) if((j + i + 4) < cmdList.length())localcmd += cmdList[j + i + 4];
+					for (int j = 0; j < cmd.length(); j++) if ((j + i + 4) < cmdList.length())localcmd += cmdList[j + i + 4];
 					if (localcmd == cmd) return true;
 				}
 			}
@@ -1918,7 +1924,7 @@ namespace olc
 					if (allSliders[i].getId() == id) allSliders[i].setX(newX);
 				}
 			}
-			
+
 		}
 
 		// Sets Height of an object		
@@ -1971,7 +1977,7 @@ namespace olc
 
 		}
 
-										
+
 		// Sets the Y position of an object									
 		void setY(int id, int newY) {
 			if (allBtns.size() > 0) {
@@ -2046,7 +2052,7 @@ namespace olc
 			}
 		}
 
-		//Update all objects in the current stage, if a stage change command is called from a Botton, this update will also update the stage
+		//Update all objects in the current stage, if a stage change command is called from a Button, this update will also update the stage
 		void Update(float fElapsedTime, pgrSTAGE &currentStage) {
 			if (timer <= 0) {
 				for (int i = 0; i < allStages.size(); i++) {
@@ -2142,7 +2148,7 @@ namespace olc
 			return false;
 		}
 
-		//Toggles  the current UI bottons visibility
+		//Toggles  the current UI buttons visibility
 		bool ToggleHideUIBTNS() {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
@@ -2196,7 +2202,7 @@ namespace olc
 		bool addTextField(int x, int y, int maxLetters) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
-					return allUIs[i].addTextField(x,y,maxLetters);
+					return allUIs[i].addTextField(x, y, maxLetters);
 				}
 			}
 			return false;
@@ -2206,7 +2212,7 @@ namespace olc
 		bool addTextField(UIStyle colorStyle, int x, int y, int maxLetters) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
-					return allUIs[i].addTextField(colorStyle,x,y,maxLetters);
+					return allUIs[i].addTextField(colorStyle, x, y, maxLetters);
 				}
 			}
 		}
@@ -2243,94 +2249,94 @@ namespace olc
 		bool addUIField(int x, int y, int w, int h) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
-					return allUIs[i].addUIField(x,y,w,h);
+					return allUIs[i].addUIField(x, y, w, h);
 				}
 			}
 			return false;
 		}
 
-		// A simple botton with width 32 heigth 20
-		bool addNewBotton(int newX, int newY) {
+		// A simple button with width 32 heigth 20
+		bool addNewButton(int newX, int newY) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
-					return allUIs[i].addNewBotton(newX, newY);
+					return allUIs[i].addNewButton(newX, newY);
 				}
 			}
 			return false;
 		}
 
-		// A simple botton with specified width and heigth
-		bool addNewBotton(int newX, int newY, int newW, int newH) {
+		// A simple button with specified width and heigth
+		bool addNewButton(int newX, int newY, int newW, int newH) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
-					return allUIs[i].addNewBotton(newX, newY, newW, newH);
+					return allUIs[i].addNewButton(newX, newY, newW, newH);
 				}
 			}
 			return false;
 		}
 
-		// A simple botton with specified width and heigth, Text displayed on botton.
-		bool addNewBotton(int newX, int newY, int newW, int newH, std::string bottonText) {
+		// A simple button with specified width and heigth, Text displayed on button.
+		bool addNewButton(int newX, int newY, int newW, int newH, std::string buttonText) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
-					return allUIs[i].addNewBotton(newX,newY,newW,newH,bottonText);
+					return allUIs[i].addNewButton(newX, newY, newW, newH, buttonText);
 				}
 			}
 			return false;
 		}
 
-		//nCmd is a  a string that is returned as a command when the botton is activated.
-		bool addNewBotton(std::string nCmd, int newX, int newY, int newW, int newH, std::string bottonText) {
+		//nCmd is a  a string that is returned as a command when the button is activated.
+		bool addNewButton(std::string nCmd, int newX, int newY, int newW, int newH, std::string buttonText) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
-					return allUIs[i].addNewBotton(nCmd, newX, newY, newW, newH, bottonText);
+					return allUIs[i].addNewButton(nCmd, newX, newY, newW, newH, buttonText);
 				}
 			}
 			return false;
 		}
 
-		// nKey is a keyboard key, nCmd is a string that is returned as a command when the botton is activated.
-		bool addNewBotton(olc::Key nKey, std::string nCmd, int newX, int newY, int newW, int newH, std::string bottonText) {
+		// nKey is a keyboard key, nCmd is a string that is returned as a command when the button is activated.
+		bool addNewButton(olc::Key nKey, std::string nCmd, int newX, int newY, int newW, int newH, std::string buttonText) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
-					return allUIs[i].addNewBotton(nKey, nCmd,newX,newY,newW,newH,bottonText);
+					return allUIs[i].addNewButton(nKey, nCmd, newX, newY, newW, newH, buttonText);
 				}
 			}
 			return false;
 		}
 
 
-		// Botton that allowes for selection of the graphic style. nKey is a keyboard key, if hasKey is set to false, teh botton will not recive the key bibdibg. nCmd is a string that is returned as a command when the botton is activated.
-		bool addNewBotton(UIStyle style, olc::Key nKey, bool hasKey, std::string nCmd, int newX, int newY, int newW, int newH, std::string bottonText) {
+		// Button that allowes for selection of the graphic style. nKey is a keyboard key, if hasKey is set to false, teh button will not recive the key bibdibg. nCmd is a string that is returned as a command when the button is activated.
+		bool addNewButton(UIStyle style, olc::Key nKey, bool hasKey, std::string nCmd, int newX, int newY, int newW, int newH, std::string buttonText) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
-					return allUIs[i].addNewBotton(style,nKey,hasKey, nCmd,newX,newY,newW,newH,bottonText);
+					return allUIs[i].addNewButton(style, nKey, hasKey, nCmd, newX, newY, newW, newH, buttonText);
 				}
 			}
 			return false;
 		}
 
-		//a dropdown menu, newW specifies teh width of the menu, drpDnName is the text on the top botton. drpDnBtns is a string of names for all sup bottons, formated as "First,Second,Third" ect.
+		//a dropdown menu, newW specifies teh width of the menu, drpDnName is the text on the top button. drpDnBtns is a string of names for all sup buttons, formated as "First,Second,Third" ect.
 		bool addNewDropDown(int newX, int newY, int newW, std::string drpDnName, std::string drpDnBtns) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
-					return allUIs[i].addNewDropDown(newX,newY,newW,drpDnName,drpDnBtns);
+					return allUIs[i].addNewDropDown(newX, newY, newW, drpDnName, drpDnBtns);
 				}
 			}
 			return false;
 		}
 
-		//a dropdown menu, allowes for selection of the style for the first and all sup bottons. newW specifies teh width of the menu, drpDnName is the text on the top botton. drpDnBtns is a string of names for all sup bottons, formated as "First,Second,Third" ect.
+		//a dropdown menu, allowes for selection of the style for the first and all sup buttons. newW specifies teh width of the menu, drpDnName is the text on the top button. drpDnBtns is a string of names for all sup buttons, formated as "First,Second,Third" ect.
 		bool addNewDropDown(UIStyle FirstStyle, UIStyle  DropStyle, int newX, int newY, int newW, std::string drpDnName, std::string drpDnBtns) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
-					return allUIs[i].addNewDropDown(FirstStyle,DropStyle,newX,newY,newW,drpDnName,drpDnBtns);
+					return allUIs[i].addNewDropDown(FirstStyle, DropStyle, newX, newY, newW, drpDnName, drpDnBtns);
 				}
 			}
 			return false;
 		}
 
-		//a dropdown menu, newW specifies teh width of the menu, drpDnName is the text on the top botton. drpDnBtns is a string of names for all sup bottons, formated as "First,Second,Third" ect, commands is as string of commands formated as "FIRST_CMD,SECOND,CMD,THIRD_CMD" ect.
+		//a dropdown menu, newW specifies teh width of the menu, drpDnName is the text on the top button. drpDnBtns is a string of names for all sup buttons, formated as "First,Second,Third" ect, commands is as string of commands formated as "FIRST_CMD,SECOND,CMD,THIRD_CMD" ect.
 		bool addNewDropDown(int newX, int newY, int newW, std::string drpDnName, std::string drpDnBtns, std::string commands) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
@@ -2340,7 +2346,7 @@ namespace olc
 			return false;
 		}
 
-		//a dropdown menu, allowes for selection of the style for the first and all sup bottons. newW specifies teh width of the menu, drpDnName is the text on the top botton. drpDnBtns is a string of names for all sup bottons, formated as "First,Second,Third" ect, commands is as string of commands formated as "FIRST_CMD,SECOND,CMD,THIRD_CMD" ect.
+		//a dropdown menu, allowes for selection of the style for the first and all sup buttons. newW specifies teh width of the menu, drpDnName is the text on the top button. drpDnBtns is a string of names for all sup buttons, formated as "First,Second,Third" ect, commands is as string of commands formated as "FIRST_CMD,SECOND,CMD,THIRD_CMD" ect.
 		bool addNewDropDown(UIStyle FirstStyle, UIStyle  DropStyle, int newX, int newY, int newW, std::string drpDnName, std::string drpDnBtns, std::string commands) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
@@ -2384,7 +2390,7 @@ namespace olc
 			return -1;
 		}
 
-		//Returns the command string of any botton or dropDownMenu Currently Pressed
+		//Returns the command string of any button or dropDownMenu Currently Pressed
 		std::string getCmdString() {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
@@ -2405,7 +2411,7 @@ namespace olc
 			return "NO COMMANDS CURRENTLY";
 		}
 
-		//Loops trougth the current commandstring looking for a specific command from a pressed botton. if CheckHover is true, it will accept the command from a botton hovered. returns true if found.
+		//Loops trougth the current commandstring looking for a specific command from a pressed button. if CheckHover is true, it will accept the command from a button hovered. returns true if found.
 		bool hasCommand(std::string cmd, bool checkHover) {
 			for (int i = 0; i < allStages.size(); i++) {
 				if (allStages[i] == mStage) {
