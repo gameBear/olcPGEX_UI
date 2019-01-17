@@ -2,7 +2,7 @@
 extension for the olcPixelGameEngine with focus on easy implementation of a UI or GUI system.
 
 /*
-	olcPGEX_UI.h v1.2
+	olcPGEX_UI.h v1.3
 
 	+-------------------------------------------------------------+
 	|   Extension made with OneLoneCoder Pixel Game Engine v1.12  |
