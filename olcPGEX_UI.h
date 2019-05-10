@@ -1,5 +1,5 @@
 /*
-	olcPGEX_UI.h v1.3
+	olcPGEX_UI.h v1.31
 
 +-------------------------------------------------------------+
 |   Extension made with OneLoneCoder Pixel Game Engine v1.12  |
@@ -663,26 +663,26 @@ namespace olc
 			std::string fieldTxt = "";
 			bool isInvisible = false;
 			bool isHidden = false;
-			const char localChar[62] = { 'A','a','B','b','C','c','D','d','E','e','F','f','G','g','H','h','I','i','J','j','K','k','L','l','M','m','N','n','O','o','P','p','Q','q','R','r','S','s','T','t','U','u','V','v','W','w','X','x','Y','y','Z','z','0','1','2','3','4','5','6','7','8','9' };
+			const char localChar[63] = { ' ','A','a','B','b','C','c','D','d','E','e','F','f','G','g','H','h','I','i','J','j','K','k','L','l','M','m','N','n','O','o','P','p','Q','q','R','r','S','s','T','t','U','u','V','v','W','w','X','x','Y','y','Z','z','0','1','2','3','4','5','6','7','8','9' };
 			char  lGetLetterPressed() {
-				if (pge->GetKey(Key(62)).bPressed) return '<';
-				else if (pge->GetKey(Key(52)).bPressed) return ' ';
-				for (int i = 0; i < 36; i++) {
+				if (pge->GetKey(Key(63)).bPressed) return '<';
+				else if (pge->GetKey(Key(53)).bPressed) return ' ';
+				for (int i = 1; i < 37; i++) {
 					if (pge->GetKey(Key(i)).bPressed) {
 
 						//////////////////////////////// determines if its a letter, and if it is, sees if shift is pressed, then returns the appropiate letter
-						if (i < 26) {
+						if (i < 27) {
 							if (pge->GetKey(Key::SHIFT).bHeld) {
-								return localChar[i * 2];
+								return localChar[i * 2-1];
 							}
-							else return localChar[i * 2 + 1];
+							else return localChar[i * 2];
 						}
 						///////////// if its not a letter, return the appropiate number
 						else return localChar[i + 26];
 					}
 				}
-				for (int i = 68; i <= 77; i++) {
-					if (pge->GetKey(Key(i)).bPressed) return localChar[i - 16];
+				for (int i = 69; i <= 78; i++) {
+					if (pge->GetKey(Key(i)).bPressed) return localChar[i -16];
 				}
 				return '*';
 			}
