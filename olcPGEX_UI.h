@@ -1,5 +1,5 @@
 /*
-	olcPGEX_UI.h v1.4
+	olcPGEX_UI.h v1.41
 +-------------------------------------------------------------+
 |   Extension made with OneLoneCoder Pixel Game Engine v1.17  |
 |      "Simple UI Tool, or.. Simple'ish" - ZleapingBear       |
@@ -569,28 +569,7 @@ namespace olc
 			const char keyLayout[37] = { ' ','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9' };
 			const char shiftLayout[37] = { ' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',')','!','@','#','$','%','^','&','*','(' };
 			const char numLayout[15] = { '0','1','2','3','4','5','6','7','8','9','*','/','+','-','.' };
-			//char  lGetLetterPressed() {
-			//	if (pge->GetKey(Key(63)).bPressed) return '<';
-			//	else if (pge->GetKey(Key(53)).bPressed) return ' ';
-			//	for (int i = 1; i < 37; i++) {
-			//		if (pge->GetKey(Key(i)).bPressed) {
 
-			//			//////////////////////////////// determines if its a letter, and if it is, sees if shift is pressed, then returns the appropiate letter
-			//			if (i < 27) {
-			//				if (pge->GetKey(Key::SHIFT).bHeld) {
-			//					return localChar[i * 2-1];
-			//				}
-			//				else return localChar[i * 2];
-			//			}
-			//			///////////// if its not a letter, return the appropiate number
-			//			else return localChar[i + 26];
-			//		}
-			//	}
-			//	for (int i = 69; i <= 78; i++) {
-			//		if (pge->GetKey(Key(i)).bPressed) return localChar[i -16];
-			//	}
-			//	return '*';
-			//}
 
 
 			char  lGetLetterPressed() {
@@ -659,6 +638,13 @@ namespace olc
 					if (localstage == ISACTIVE) showString += '<';
 					drawObj(localRect, m_style, btnState::IDLE, showString, true, screenW, screenH, uID, inDebugMode, storeDrawID);
 				}
+			}
+			void setText(std::string newText) {
+				if (newText.size() <= maxLetters) fieldTxt = newText;
+			}
+
+			void addText(std::string newText) {
+				if (newText.size() + fieldTxt.size() <= maxLetters) fieldTxt += newText;
 			}
 			int getX() { return localRect.pos.x; }
 			int getY() { return localRect.pos.y; }
@@ -1952,6 +1938,25 @@ namespace olc
 			}
 
 		}
+
+
+		void setText(int id, std::string newText) {
+			if (allTextFields.size() > 0) {
+				for (int i = 0; i < allTextFields.size(); i++) {
+					if (allTextFields[i].getId() == id) allTextFields[i].setText(newText);
+				}
+			}
+		}
+
+		void addText(int id, std::string newText) {
+			if (allTextFields.size() > 0) {
+				for (int i = 0; i < allTextFields.size(); i++) {
+					if (allTextFields[i].getId() == id) allTextFields[i].addText(newText);
+				}
+			}
+		}
+
+
 	};
 
 	// Container that controls multiple UIs 
@@ -2484,6 +2489,24 @@ namespace olc
 				}
 			}
 		}
+
+
+		void setText(int id, std::string newText) {
+			for (int i = 0; i < allStages.size(); i++) {
+				if (allStages[i] == mStage) {
+					allUIs[i].setText(id, newText);
+				}
+			}
+		}
+
+		void addText(int id, std::string newText) {
+			for (int i = 0; i < allStages.size(); i++) {
+				if (allStages[i] == mStage) {
+					allUIs[i].addText(id, newText);
+				}
+			}
+		}
+
 	};
 
 }
