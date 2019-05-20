@@ -1,33 +1,24 @@
 /*
-	olcPGEX_UI.h v1.31
-
+	olcPGEX_UI.h v1.4
 +-------------------------------------------------------------+
-|   Extension made with OneLoneCoder Pixel Game Engine v1.12  |
+|   Extension made with OneLoneCoder Pixel Game Engine v1.17  |
 |      "Simple UI Tool, or.. Simple'ish" - ZleapingBear       |
 +-------------------------------------------------------------+
-
 What is this?
 ~~~~~~~~~~~~~
 This is an extension header for the OlcPixelGameEngine.
 This extension is intented to help users quickly setup a protoptype for any game or program.
-
 To this end, the extension provides two classes for direct use.
 the UI_CONTAINER and the UI_STAGE_CONTROLL
-
 the first, UI_CONTAINER handles the updateing and drawing of all UI elements,
 including buttons, drop down menus, text fields, sliders and backgroundfields, as well as asignment of a unique ID and communication with these.
 For a single page application, such as a calculator or a stand-alone main menu this contain can be used and handles all objects by it self.
-
 The second class UI_STAGE_CONTROLL functions on the surface exactly as the UI_CONTAINER, with one exception.
 The UI_STAGE_CONTROLL contains multiple UI_CONTAINERs at the same time and handles switching between them for the user,
 this can even be done trough Commands bound to buttons at creation time.
-
 To help these classes there are multiple Enums created. the most important being the pgrSTAGE enum (Program stage)
 this enum contains a list of 20 diffrent stages that teh program can be in, 10 predefined and 10 generic.
 each stage name can also be used as a command on a button, forcing the UI_STAGE_CONTROLL to switch to that stage if one such exists.
-
-
-
 // All stages are:
 // predefiend
 RUN_INTRO, MAIN_MENU, RUN_PROGRAM, SAVE_LOAD,
@@ -37,31 +28,23 @@ HIGHSCORE, PGR_OPTIONS,
 PGR_STG0, PGR_STG1, PGR_STG2, PGR_STG3,
 PGR_STG4, PGR_STG5, PGR_STG6, PGR_STG7,
 PGR_STG8, PGR_STG9
-
 This PGEX will be updated when time is. pull requests and errors will be read and fixed when possible.
 suggestions are welcome.
-
 License notes:
 ~~~~~~~~~~~~~~~
-
 Copyright 2018 Michlas C. Lund-Mouritzen
-
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
 are met:
-
 1. Redistributions or derivations of source code must retain the above
 copyright notice, this list of conditions and the following disclaimer.
-
 2. Redistributions or derivative works in binary form must reproduce
 the above copyright notice. This list of conditions and the following
 disclaimer must be reproduced in the documentation and/or other
 materials provided with the distribution.
-
 3. Neither the name of the copyright holder nor the names of its
 contributors may be used to endorse or promote products derived
 from this software without specific prior written permission.
-
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -73,8 +56,6 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
 THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-
 //////////////////////////////////////////////////////////////////////////////
 Links
 ~~~~~
@@ -82,32 +63,24 @@ Links
 Youtube:	https://www.youtube.com/zleapingbear
 Twitter:	https://twitter.com/MCLMouritzen
 GitHub:		https://github.com/gameBear/olcPGEX_UI
-
 	OneLoneCoder:
 YouTube:	https://www.youtube.com/javidx9
 Discord:	https://discord.gg/WhwHUMV
 GitHub:		https://www.github.com/onelonecoder
 Homepage:	https://www.onelonecoder.com
-
-
 Relevant Videos
 ~~~~~~~~~~~~~~~
 PGE
 https://youtu.be/kRH6oJLFYxY Introducing olcPixelGameEngine
-
 PGEX_UI
 https://youtu.be/bfiSjC__MCI NotPong Demo example
-
 Compiling in XXXX
 ~~~~~~~~~~~~~~~~~~
 Sorry all, i have no way of testing this. but should run on all things PGE safe.
-
-
 	Thanks
 	~~~~~~
 	I'd like to extend thanks to David Bar for making the PGE, CGE, Videos and all other material aveliable.
 	I hope you will keep up the fantastic work.
-
 	Author
 	~~~~~~
 	Michlas C. Lund-Mouritzen, aka ZleapingBear, ©ZleapingBear 2018
@@ -118,47 +91,35 @@ Sorry all, i have no way of testing this. but should run on all things PGE safe.
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						single UI_CONTAINER with one of each element.
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
 #include "olcPGEX_UI.h"
-
 static int screenW = 640, screenH = 480;
-
 class Example : public olc::PixelGameEngine
 {
 public:
 	int w = screenW;
 	olc::UI_CONTAINER myUI;
-
-
 	Example()
 	{
 		sAppName = "UI Sample";
 	}
-
 public:
 	bool OnUserCreate() override
 	{
-
 		// A simple button
 		myUI.addNewButton(120, 5, 70, 20, "A BOTTEN");
-
 		// Four buttons bound to the keyboard keys WASD
 		myUI.addNewButton(olc::Key::W, "UP_Key", screenW - 110, screenH - 130, 32, 32, " W");
 		myUI.addNewButton(olc::Key::A, "LEFT_Key", screenW - 160, screenH - 80, 32, 32, " A");
 		myUI.addNewButton(olc::Key::S, "DOWN_Key", screenW - 110, screenH - 80, 32, 32, " S");
 		myUI.addNewButton(olc::Key::D, "RIGHT_Key", screenW - 60, screenH - 80, 32, 32, " D");
-
 		// a drop down, note that the third sub button has teh cvommand EXIT, we will use this bellow
 		myUI.addNewDropDown(UI_BLACK, UI_BLUE, 5, 5, 100, "MAIN", "FIRST,SECOND,EXIT", "CMD_1,CMD_2,EXIT");
-
 		// a test field
 		myUI.addTextField(50, screenH * 0.82, 20);
-
 		//a slider with values 0-100 and a width of 400 pixels
 		myUI.addSlider(20, 150, 400);
-
 		// a avector used to setup two diffrent sliders.
 		std::vector<int> range;
 		range.push_back(10);
@@ -167,93 +128,64 @@ public:
 		range.push_back(20);
 		range.push_back(50);
 		range.push_back(90);
-
 		// this slider will only be set to the values added to the vector "range"
 		myUI.addSlider(480, 20, 150, TopBottom, SteppingSlider, range);
-
 		// this slider will return a value between the first and last value in the vector "range"
 		myUI.addSlider(520, 20, 150, BottomTop, RangeSetSlider, range);
-
-
 		// a simple field that lets the mouse know its in the UI.
 		//unless you call myUI.ToggleHideUIFIELDS(); you wont be able to see this field, but the mouse will be detected if it hovers it.
 		myUI.addUIField(0, 0, screenW, 100);
-
 		//do you want the ID to be visible durring the debud time?
 		//myUI.toggleDEBUGMODE();
-
 		return true;
 	}
-
 	bool OnUserUpdate(float fElapsedTime) override
 	{
-
 		// this handles the uopdate of all items
 		myUI.Update(fElapsedTime);
-
 		// if any button in the current UI sends the command EXIT, letsd exit
 		if (myUI.hasCommand("EXIT", false)) return 0;
-
 		Clear(olc::DARK_GREY);
-
 		// This draws all items in the UI
 		myUI.drawUIObjects();
-
 		// lets print a string to the screen telling if the mouse is in any UI.
 		if (myUI.isMouseInUI()) DrawString(50, screenH* 0.9, ":THE MOUSE IS IN THE UI", olc::RED);
 		else DrawString(50, screenH* 0.9, ":THE MOUSE NOT IN THE UI", olc::RED);
-
-
 		// lets also draw all current commands to the screen
 		std::string myOut = myUI.getAllCmds();
 		DrawString(50, screenH* 0.95, myOut);
-
-
 		DrawString(50, screenH* 0.8, "A text field, try using it:", olc::RED);
 		return true;
 	}
 };
-
-
 int main()
 {
 	Example demo;
 	if (demo.Construct(screenW, screenH, 1, 1))
 		demo.Start();
-
 	return 0;
 }
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			multiple UI_CONTAINERs in a UI_STAGE_CONTROLL with commands to ling between them
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
 #include "olcPGEX_UI.h"
-
 static int screenW = 640, screenH = 480;
-
 class Example : public olc::PixelGameEngine
 {
 public:
 	int w = screenW;
-
 	//We need a stage controller for multiple stages
 	olc::UI_STAGE_CONTROLL myUI;
-
 	// a stage enum to dictate teh current stage
 	pgrSTAGE currentStage = MAIN_MENU;
-
-
 	Example()
 	{
 		sAppName = "UI Sample";
 	}
-
 public:
 	bool OnUserCreate() override
 	{
@@ -261,9 +193,7 @@ public:
 		allStages.push_back(MAIN_MENU);
 		allStages.push_back(PGR_STG0);
 		allStages.push_back(PGR_STG1);
-
 		myUI.setUp(screenW, screenH, allStages);
-
 		// When adding to the UI_STAGE_CONTROLL, it is important to call the stage you wish to add to first
 		// lets add to the mainmenu, if such one exists. (it does, we added it first to the vector ;)
 		if (myUI.addToStage(MAIN_MENU)) {
@@ -272,40 +202,30 @@ public:
 			//do you want the ID to be visible durring the debud time?
 			//myUI.toggleDEBUGMODE();
 		}
-
-
 		if (myUI.addToStage(PGR_STG0)) {
 			// in stage 0 we will just add a return button, that will let us return tom main menu
 			myUI.addNewButton("MAIN_MENU", 0, screenH*0.5, screenW, 50, "MAIN MENU");
 			//do you want the ID to be visible durring the debud time?
 			//myUI.toggleDEBUGMODE();
 		}
-
 		if (myUI.addToStage(PGR_STG1)) {
 			// in stage 1 we will add a button that will take us to stage 0 if we press space
 			myUI.addNewButton(olc::Key::SPACE, "PGR_STG0", 0, screenH*0.1, screenW, 50, "Press Space to get to stage 0");
 			//do you want the ID to be visible durring the debud time?
 			//myUI.toggleDEBUGMODE();
 		}
-
 		return true;
 	}
-
 	bool OnUserUpdate(float fElapsedTime) override
 	{
-
 		// this handles the uopdate of all items, it needs our current stage so it cvan update it.
 		myUI.Update(fElapsedTime, currentStage);
-
 		// if any button in the current UI sends the command EXIT, letsd exit
 		if (myUI.hasCommand("EXIT", false)) return 0;
-
-
 		//say you want to use teh stage to do stuff like letting a ball pass the screen in some odd way.
 		// Short program irellevant for the setup, but demonstration of the UI_STAGE_CONTROLL handeling all things
 		// we will just let a ball bounce on the screen without a care in the world.
 		static float x = 200.0f, y = 200.0f, xspeed = 105.5f, yspeed = 125.8f;
-
 		switch (currentStage)
 		{
 		case MAIN_MENU:
@@ -313,64 +233,47 @@ public:
 			y += yspeed * fElapsedTime;
 			if (x > screenW && xspeed > 0) xspeed = xspeed * -1;
 			else if (x < 0 && xspeed < 0) xspeed = xspeed * -1;
-
 			if (y > screenH && yspeed > 0) yspeed = yspeed * -1;
 			else if (y < 0 && yspeed < 0) yspeed = yspeed * -1;
-
 			break;
 		case PGR_STG0:
 			y += yspeed * fElapsedTime;
 			if (x > screenW && xspeed > 0) xspeed = xspeed * -1;
 			else if (x < 0 && xspeed < 0) xspeed = xspeed * -1;
-
 			if (y > screenH && yspeed > 0) yspeed = yspeed * -1;
 			else if (y < 0 && yspeed < 0) yspeed = yspeed * -1;
-
 			break;
 		case PGR_STG1:
 			x += xspeed * fElapsedTime;
 			if (x > screenW && xspeed > 0) xspeed = xspeed * -1;
 			else if (x < 0 && xspeed < 0) xspeed = xspeed * -1;
-
 			if (y > screenH && yspeed > 0) yspeed = yspeed * -1;
 			else if (y < 0 && yspeed < 0) yspeed = yspeed * -1;
-
 			break;
 		default:
 			break;
 		}
-
-
 		// CLEAR THE SCREEN
 		Clear(olc::DARK_GREY);
-
 		// This draws all items in the UI
 		myUI.drawUIObjects();
-
 		// lets print a string to the screen telling if the mouse is in any UI.
 		if (myUI.isMouseInUI()) DrawString(50, screenH* 0.9, ":THE MOUSE IS IN THE UI", olc::RED);
 		else DrawString(50, screenH* 0.9, ":THE MOUSE NOT IN THE UI", olc::RED);
-
-
 		// lets also draw all current commands to the screen
 		std::string myOut = myUI.getAllCmds();
 		DrawString(50, screenH* 0.95, myOut);
-
 		DrawCircle(x, y, 10);
 		return true;
 	}
 };
-
-
 int main()
 {
 	Example demo;
 	if (demo.Construct(screenW, screenH, 1, 1))
 		demo.Start();
-
 	return 0;
 }
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -663,28 +566,47 @@ namespace olc
 			std::string fieldTxt = "";
 			bool isInvisible = false;
 			bool isHidden = false;
-			const char localChar[63] = { ' ','A','a','B','b','C','c','D','d','E','e','F','f','G','g','H','h','I','i','J','j','K','k','L','l','M','m','N','n','O','o','P','p','Q','q','R','r','S','s','T','t','U','u','V','v','W','w','X','x','Y','y','Z','z','0','1','2','3','4','5','6','7','8','9' };
+			const char keyLayout[37] = { ' ','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9' };
+			const char shiftLayout[37] = { ' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',')','!','@','#','$','%','^','&','*','(' };
+			const char numLayout[15] = { '0','1','2','3','4','5','6','7','8','9','*','/','+','-','.' };
+			//char  lGetLetterPressed() {
+			//	if (pge->GetKey(Key(63)).bPressed) return '<';
+			//	else if (pge->GetKey(Key(53)).bPressed) return ' ';
+			//	for (int i = 1; i < 37; i++) {
+			//		if (pge->GetKey(Key(i)).bPressed) {
+
+			//			//////////////////////////////// determines if its a letter, and if it is, sees if shift is pressed, then returns the appropiate letter
+			//			if (i < 27) {
+			//				if (pge->GetKey(Key::SHIFT).bHeld) {
+			//					return localChar[i * 2-1];
+			//				}
+			//				else return localChar[i * 2];
+			//			}
+			//			///////////// if its not a letter, return the appropiate number
+			//			else return localChar[i + 26];
+			//		}
+			//	}
+			//	for (int i = 69; i <= 78; i++) {
+			//		if (pge->GetKey(Key(i)).bPressed) return localChar[i -16];
+			//	}
+			//	return '*';
+			//}
+
+
 			char  lGetLetterPressed() {
 				if (pge->GetKey(Key(63)).bPressed) return '<';
 				else if (pge->GetKey(Key(53)).bPressed) return ' ';
 				for (int i = 1; i < 37; i++) {
-					if (pge->GetKey(Key(i)).bPressed) {
-
-						//////////////////////////////// determines if its a letter, and if it is, sees if shift is pressed, then returns the appropiate letter
-						if (i < 27) {
-							if (pge->GetKey(Key::SHIFT).bHeld) {
-								return localChar[i * 2-1];
-							}
-							else return localChar[i * 2];
-						}
-						///////////// if its not a letter, return the appropiate number
-						else return localChar[i + 26];
+					if (pge->GetKey(Key::SHIFT).bHeld) {
+						if (pge->GetKey(Key(i)).bPressed) return shiftLayout[i];
 					}
+					else if (pge->GetKey(Key(i)).bPressed) return keyLayout[i];
 				}
-				for (int i = 69; i <= 78; i++) {
-					if (pge->GetKey(Key(i)).bPressed) return localChar[i -16];
+
+				for (int i = 69; i <= 83; i++) {
+					if (pge->GetKey(Key(i)).bPressed) return numLayout[i - 69];
 				}
-				return '*';
+				return 'å';
 			}
 
 
@@ -728,7 +650,7 @@ namespace olc
 						fieldTxt = tempString;
 						fieldTxt.shrink_to_fit();
 					}
-					else if (newLetter != '*' && newLetter != '<' && fieldTxt.size() <= maxLetters) fieldTxt += newLetter;
+					else if (newLetter != 'å' && newLetter != '<' && fieldTxt.size() <= maxLetters) fieldTxt += newLetter;
 				}
 			}
 			void drawField(bool inDebugMode, std::vector<debugID> &storeDrawID) {
@@ -1160,8 +1082,10 @@ namespace olc
 						distToMouse.y = SliderHandle.getY() - pge->GetMouseY();
 					}
 				}
+
 				if (following) {
 					if (pge->GetMouse(0).bReleased) following = false;
+					if (pge->GetMouse(0).bHeld == false) following = false;
 					else {
 						int mX = pge->GetMouseX() + distToMouse.x;
 						int mY = pge->GetMouseY() + distToMouse.y;
@@ -1185,7 +1109,10 @@ namespace olc
 			}
 
 			void setSteppingSlider(int atStep) {
+				if (atStep > range.size() - 1)atStep = range.size() - 1;
+				else if (atStep < 0) atStep = 0;
 				float pos = 0;
+
 				if (localDir == BottomTop) pos = (float)((((float)length - (float)SliderHandle.getH()) / ((float)range.size() - 1)) * ((float)range.size() - (1 + (float)atStep)));
 				else if (localDir == TopBottom) pos = (float)((((float)length - (float)SliderHandle.getH()) / ((float)range.size() - 1)) *  (float)atStep);
 
@@ -1194,7 +1121,7 @@ namespace olc
 
 				if (localDir == BottomTop || localDir == TopBottom) {
 					SliderHandle.setY(position.y + pos);
-					SliderHandle.setY(position.x - SliderHandle.getW() * 0.5);
+					SliderHandle.setX(position.x - SliderHandle.getW() * 0.5);
 				}
 
 				else {
@@ -1232,6 +1159,8 @@ namespace olc
 
 			int getStep() {
 				float step = ((float)(range.size() - 1) / 100.0f) * getValueAsFloat();
+				if (step > range.size() - 1) step = range.size() - 1;
+				else if (step < 0)  step = 0;
 				return FloatToInt(step);
 			}
 
@@ -1242,7 +1171,8 @@ namespace olc
 					return FloatToInt(localRange);
 				}
 				else if (localType == SteppingSlider) {
-					return range[getStep()];
+					int ret = getStep();
+					return range[ret];
 				}
 				return FloatToInt(getValueAsFloat());
 			}
