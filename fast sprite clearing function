@@ -1,0 +1,23 @@
+//Use this function to clear a screen with a sprite instead.
+//Effective to draw static backgrounds without taking up to much time
+//make sure that the sprite has the exact same dimensions as the screen
+//if not, there is a fail safe, and the function will just draw normaly.
+//add the function inside the pge, before the user create.
+//call the fundtion inside onUserUpdate
+
+//Function
+
+bool ClearWithSprite( olc::Sprite *target, olc::Sprite *spr) {
+	if (sizeof(uint32_t) * spr->width * spr->height == sizeof(uint32_t) * target->width * target->height && spr->height == target->height && spr->width == target->width) {
+		if(memcpy(target->GetData(), spr->GetData(), sizeof(uint32_t) * spr->width * spr->height)) return true;
+	}
+	DrawSprite(0, 0, spr);
+	//std::cout << "Error, failed to copy\n";
+	return false;
+}
+
+
+//How to call it
+//use GetDrawTarget() or the name of the target sprite you want to draw to
+
+ClearWithSprite(GetDrawTarget(), gameBG);
