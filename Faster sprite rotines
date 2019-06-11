@@ -1,0 +1,198 @@
+////////////////////////////////////////////////////////////
+///////// The following functions must be added: ///////////
+////////      The declarations must be added       /////////
+////////////////////////////////////////////////////////////
+
+
+    //Avoids all safty measures for speed
+		Pixel GetFastPixel(int32_t x, int32_t y);
+
+
+
+
+
+		//Avoids all safty measures for speed
+		bool  SetFastPixel(int32_t x, int32_t y, Pixel p);
+
+
+
+
+
+
+		// Draws a single Pixel without safty measures
+		virtual bool DrawFast(int32_t x, int32_t y, Pixel p = olc::WHITE);
+    
+    
+    
+    
+    
+	Pixel Sprite::GetFastPixel(int32_t x, int32_t y)
+	{
+		if (modeSample == olc::Sprite::Mode::NORMAL) return pColData[y*width + x];
+		else return pColData[abs(y%height)*width + abs(x%width)];
+	}
+
+
+
+
+
+
+
+	bool Sprite::SetFastPixel(int32_t x, int32_t y, Pixel p)
+	{
+
+#ifdef OLC_DBG_OVERDRAW
+		nOverdrawCount++;
+#endif
+
+
+		pColData[y*width + x] = p;
+		return true;
+
+	}
+
+
+
+
+
+
+
+bool PixelGameEngine::DrawFast(int32_t x, int32_t y, Pixel p)
+	{
+
+		if (!pDrawTarget) return false;
+
+
+		if (nPixelMode == Pixel::NORMAL)
+		{
+			return pDrawTarget->SetFastPixel(x, y, p);
+		}
+
+		if (nPixelMode == Pixel::MASK)
+		{
+			if (p.a == 255)
+				return pDrawTarget->SetFastPixel(x, y, p);
+		}
+
+		if (nPixelMode == Pixel::ALPHA)
+		{
+			Pixel d = pDrawTarget->GetFastPixel(x, y);
+			float a = (float)(p.a / 255.0f) * fBlendFactor;
+			float c = 1.0f - a;
+			float r = a * (float)p.r + c * (float)d.r;
+			float g = a * (float)p.g + c * (float)d.g;
+			float b = a * (float)p.b + c * (float)d.b;
+			return pDrawTarget->SetFastPixel(x, y, Pixel((uint8_t)r, (uint8_t)g, (uint8_t)b));
+		}
+		if (nPixelMode == Pixel::CUSTOM)
+		{
+			return pDrawTarget->SetFastPixel(x, y, funcPixelMode(x, y, p, pDrawTarget->GetFastPixel(x, y)));
+		}
+		return false;
+	}
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////
+//////// The following functions must be modified: /////////
+////////     The declarations does NOT change      /////////
+////////////////////////////////////////////////////////////
+
+
+
+
+
+
+	void PixelGameEngine::DrawSprite(int32_t x, int32_t y, Sprite *sprite, uint32_t scale)
+	{
+		if (sprite == nullptr)
+			return;
+
+		//Fast routine if entire sprite is within entire target:
+		if (x > 0 && x + sprite->width < pDrawTarget->width && y > 0 && y + sprite->height < pDrawTarget->height) {
+			if (scale > 1)
+			{
+				for (int32_t i = 0; i < sprite->width; i++)
+					for (int32_t j = 0; j < sprite->height; j++)
+						for (uint32_t is = 0; is < scale; is++)
+							for (uint32_t js = 0; js < scale; js++)
+								DrawFast(x + (i*scale) + is, y + (j*scale) + js, sprite->GetFastPixel(i, j));
+			}
+			else
+			{
+				for (int32_t i = 0; i < sprite->width; i++)
+					for (int32_t j = 0; j < sprite->height; j++)
+						DrawFast(x + i, y + j, sprite->GetFastPixel(i, j));
+			}
+
+		}
+
+		//// NORMAL rotine
+		else {
+			if (scale > 1)
+			{
+				for (int32_t i = 0; i < sprite->width; i++)
+					for (int32_t j = 0; j < sprite->height; j++)
+						for (uint32_t is = 0; is < scale; is++)
+							for (uint32_t js = 0; js < scale; js++)
+								Draw(x + (i*scale) + is, y + (j*scale) + js, sprite->GetPixel(i, j));
+			}
+			else
+			{
+				for (int32_t i = 0; i < sprite->width; i++)
+					for (int32_t j = 0; j < sprite->height; j++)
+						Draw(x + i, y + j, sprite->GetPixel(i, j));
+			}
+		}
+	}
+
+
+
+
+
+
+	void PixelGameEngine::DrawPartialSprite(int32_t x, int32_t y, Sprite *sprite, int32_t ox, int32_t oy, int32_t w, int32_t h, uint32_t scale)
+	{
+		if (sprite == nullptr)
+			return;
+		//Fast routine if entire sprite is within entire target && entire partial sprite is within source sprite:
+		if (x > 0 && x + w < pDrawTarget->width && y > 0 && y + h < pDrawTarget->height && ox > 0 && oy > 0 && w < sprite->width && h < sprite->height) {
+			if (scale > 1)
+			{
+				for (int32_t i = 0; i < w; i++)
+					for (int32_t j = 0; j < h; j++)
+						for (uint32_t is = 0; is < scale; is++)
+							for (uint32_t js = 0; js < scale; js++)
+								DrawFast(x + (i*scale) + is, y + (j*scale) + js, sprite->GetFastPixel(i + ox, j + oy));
+			}
+			else
+			{
+				for (int32_t i = 0; i < w; i++)
+					for (int32_t j = 0; j < h; j++)
+						DrawFast(x + i, y + j, sprite->GetFastPixel(i + ox, j + oy));
+			}
+		}
+
+		//// NORMAL rotine
+		else {
+			if (scale > 1)
+			{
+				for (int32_t i = 0; i < w; i++)
+					for (int32_t j = 0; j < h; j++)
+						for (uint32_t is = 0; is < scale; is++)
+							for (uint32_t js = 0; js < scale; js++)
+								Draw(x + (i*scale) + is, y + (j*scale) + js, sprite->GetPixel(i + ox, j + oy));
+			}
+			else
+			{
+				for (int32_t i = 0; i < w; i++)
+					for (int32_t j = 0; j < h; j++)
+						Draw(x + i, y + j, sprite->GetPixel(i + ox, j + oy));
+			}
+		}
+	}
